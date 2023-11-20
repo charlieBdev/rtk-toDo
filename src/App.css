@@ -3,9 +3,5 @@
 	margin: 0 auto;
 	padding: 2rem;
 	text-align: center;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.task-component {
-	border: 1px solid grey;
+	/* font-family: Verdana, Geneva, Tahoma, sans-serif; */
 }

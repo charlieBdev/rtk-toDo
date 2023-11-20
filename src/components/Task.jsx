@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { addToDo } from '../actions';
+import { addTodo } from '../features/todo/todoSlice';
 
 const Task = () => {
 	const dispatch = useDispatch();
@@ -9,21 +9,23 @@ const Task = () => {
 	function addNewTask() {
 		const task = inputRef.current.value.trim();
 		if (task !== '') {
-			dispatch(addToDo(task));
-			inputRef.current.value('');
+			dispatch(addTodo(task));
+			inputRef.current.value = '';
 		}
 	}
 
 	return (
-		<div className='task-component'>
-			<div className='addTask'>
+		<div className=''>
+			<div className='add-task'>
 				<input
 					type='text'
 					placeholder='Add task here...'
 					ref={inputRef}
-					className='task-input'
+					className='border'
 				/>
-				<button onClick={addNewTask}>Add task</button>
+				<button className='border' onClick={addNewTask}>
+					Add task
+				</button>
 			</div>
 		</div>
 	);
