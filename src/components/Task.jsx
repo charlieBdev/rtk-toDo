@@ -15,18 +15,19 @@ const Task = () => {
 	}
 
 	return (
-		<div className=''>
-			<div className='add-task'>
-				<input
-					type='text'
-					placeholder='Add task here...'
-					ref={inputRef}
-					className='border'
-				/>
-				<button className='border' onClick={addNewTask}>
-					Add task
-				</button>
-			</div>
+		<div className='flex gap-1'>
+			<input
+				type='text'
+				placeholder='Add task here...'
+				ref={inputRef}
+				className='border rounded px-3 py-1'
+			/>
+			<button
+				className='border rounded px-3 py-1 shadow hover:shadow-xl'
+				onClick={addNewTask}
+			>
+				Add task
+			</button>
 		</div>
 	);
 };
