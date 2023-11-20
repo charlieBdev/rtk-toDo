@@ -1,12 +1,10 @@
-import { applyMiddleware, legacy_createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
+import todoReducer from './features/todo/todoSlice';
 
-import taskReducer from './reducers/taskReducer';
-
-const store = legacy_createStore(
-	taskReducer,
-	composeWithDevTools(applyMiddleware(thunk))
-);
+const store = configureStore({
+	reducer: {
+		todo: todoReducer,
+	},
+});
 
 export default store;

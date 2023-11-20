@@ -5,7 +5,9 @@ import TaskList from './components/TaskList';
 function App() {
 	return (
 		<>
-			<h1>Totally Original ToDo List</h1>
+			<h1 className='text-3xl font-bold underline'>
+				Totally Original ToDo List
+			</h1>
 			<Task />
 			<TaskList />
 		</>
