@@ -1,13 +1,23 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTodo } from '../features/todo/todoSlice';
+import { deleteTodo, setFirstRenderState } from '../features/todo/todoSlice';
+import { useEffect } from 'react';
+import confetti from 'canvas-confetti';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
 	const dispatch = useDispatch();
+	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
+		dispatch(setFirstRenderState(false));
 	}
+
+	useEffect(() => {
+		if (tasks.length === 0 && !isFirstRender) {
+			confetti();
+		}
+	}, [tasks, isFirstRender]);
 
 	return (
 		<div className=''>
