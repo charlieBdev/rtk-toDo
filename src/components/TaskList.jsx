@@ -16,9 +16,6 @@ const TaskList = () => {
 	const dispatch = useDispatch();
 	const [currTaskId, setCurrTaskId] = useState(null);
 
-	var scalar = 2;
-	var pineapple = confetti.shapeFromText({ text: '💸', scalar });
-
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
 		dispatch(setFirstRenderState(false));
@@ -38,10 +35,7 @@ const TaskList = () => {
 	useEffect(() => {
 		const taskCompleted = tasks.find((task) => task.id === currTaskId);
 		if (taskCompleted && taskCompleted.complete) {
-			confetti({
-				shapes: [pineapple],
-				scalar,
-			});
+			confetti();
 		}
 	}, [currTaskId, completeTask]);
 
