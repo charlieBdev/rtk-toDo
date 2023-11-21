@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../features/todo/todoSlice';
+import { Add } from './Add';
 
 const Task = () => {
 	const dispatch = useDispatch();
 	const inputRef = useRef(null);
 
-	function addNewTask() {
+	function addNewTask(e) {
+		e.preventDefault();
 		const task = inputRef.current.value.trim();
 		if (task !== '') {
 			dispatch(addTodo(task));
@@ -15,20 +17,21 @@ const Task = () => {
 	}
 
 	return (
-		<div className='flex gap-1'>
+		<form className='flex gap-1 w-full sm:w-1/2' onSubmit={addNewTask}>
 			<input
 				type='text'
 				placeholder='Add task here...'
 				ref={inputRef}
-				className='border rounded px-3 py-1'
+				className='border rounded p-1 w-full'
 			/>
 			<button
-				className='border rounded px-3 py-1 shadow hover:shadow-xl'
-				onClick={addNewTask}
+				className='border rounded p-1 shadow hover:shadow-xl'
+				type='submit'
+				aria-label='Add task'
 			>
-				Add task
+				<Add />
 			</button>
-		</div>
+		</form>
 	);
 };
 
