@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { prepAuthor } from '../utils/utils';
 
 const Quote = () => {
 	const [quotes, setQuotes] = useState([]);
@@ -22,7 +23,7 @@ const Quote = () => {
 		<div>
 			{randomQuote ? (
 				<p className='italic'>
-					"{randomQuote}" - {author.split(',')[0]}"
+					"{randomQuote}" - {prepAuthor(author)}
 				</p>
 			) : null}
 		</div>

@@ -4,7 +4,6 @@ import {
 	deleteTodo,
 	setFirstRenderState,
 } from '../features/todo/todoSlice';
-import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
 import Delete from './Delete';
 import Complete from './Complete';
@@ -14,7 +13,6 @@ const TaskList = () => {
 	const tasksComplete = useSelector((state) => state.todo.tasksComplete);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const dispatch = useDispatch();
-	const [allTasksComplete, setAllTasksComplete] = useState(false);
 
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
@@ -23,22 +21,15 @@ const TaskList = () => {
 
 	function completeTask(id) {
 		const taskToComplete = tasks.find((task) => task.id === id);
+
 		if (taskToComplete) {
 			dispatch(completeTodo({ id }));
 			dispatch(setFirstRenderState(false));
+			if (!taskToComplete.complete) {
+				confetti();
+			}
 		}
 	}
-
-	useEffect(() => {
-		const allComplete = tasks.every((task) => task.complete);
-		setAllTasksComplete(allComplete);
-	}, [tasks]);
-
-	useEffect(() => {
-		if (allTasksComplete && !isFirstRender) {
-			confetti();
-		}
-	}, [allTasksComplete, isFirstRender]);
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
