@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	tasks: [],
 	isFirstRender: true,
-	tasksComplete: 0,
+	tasksCompleted: 0,
 };
 
 const todoSlice = createSlice({
@@ -25,7 +25,7 @@ const todoSlice = createSlice({
 			state.tasks = state.tasks.filter((task) => task.id !== action.payload);
 
 			if (taskToDelete && taskToDelete.complete && state.tasks.length > 0) {
-				state.tasksComplete--;
+				state.tasksCompleted--;
 			}
 		},
 		setFirstRenderState: (state, action) => {
@@ -37,10 +37,10 @@ const todoSlice = createSlice({
 
 			if (taskToUpdate && !taskToUpdate.complete) {
 				taskToUpdate.complete = true;
-				state.tasksComplete++;
+				state.tasksCompleted++;
 			} else if (taskToUpdate && taskToUpdate.complete) {
 				taskToUpdate.complete = false;
-				state.tasksComplete--;
+				state.tasksCompleted--;
 			}
 		},
 	},
