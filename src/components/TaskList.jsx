@@ -14,7 +14,10 @@ const TaskList = () => {
 	const tasksCompleted = useSelector((state) => state.todo.tasksCompleted);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const dispatch = useDispatch();
-	const [taskId, setTaskId] = useState(null);
+	const [currTaskId, setCurrTaskId] = useState(null);
+
+	var scalar = 2;
+	var pineapple = confetti.shapeFromText({ text: '💸', scalar });
 
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
@@ -22,23 +25,25 @@ const TaskList = () => {
 	}
 
 	function completeTask(id) {
-		const taskToComplete = tasks.find((task) => task.id === id);
+		setCurrTaskId(id);
+		console.log(currTaskId, '<<< currTaskId');
 
+		const taskToComplete = tasks.find((task) => task.id === id);
 		if (taskToComplete) {
 			dispatch(completeTodo({ id }));
 			dispatch(setFirstRenderState(false));
-			setTaskId(id);
 		}
 	}
 
 	useEffect(() => {
-		if (taskId !== null) {
-			const updatedTask = tasks.find((task) => task.id === taskId);
-			if (updatedTask && updatedTask.complete) {
-				confetti();
-			}
+		const taskCompleted = tasks.find((task) => task.id === currTaskId);
+		if (taskCompleted && taskCompleted.complete) {
+			confetti({
+				shapes: [pineapple],
+				scalar,
+			});
 		}
-	}, [tasks, taskId]);
+	}, [currTaskId, completeTask]);
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
