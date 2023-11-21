@@ -7,14 +7,12 @@ import {
 import confetti from 'canvas-confetti';
 import Delete from './Delete';
 import Complete from './Complete';
-import { useEffect, useState } from 'react';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
 	const tasksCompleted = useSelector((state) => state.todo.tasksCompleted);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const dispatch = useDispatch();
-	const [currTaskId, setCurrTaskId] = useState(null);
 
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
@@ -22,22 +20,15 @@ const TaskList = () => {
 	}
 
 	function completeTask(id) {
-		setCurrTaskId(id);
-		console.log(currTaskId, '<<< currTaskId');
-
 		const taskToComplete = tasks.find((task) => task.id === id);
 		if (taskToComplete) {
 			dispatch(completeTodo({ id }));
 			dispatch(setFirstRenderState(false));
+			if (!taskToComplete.complete) {
+				confetti();
+			}
 		}
 	}
-
-	useEffect(() => {
-		const taskCompleted = tasks.find((task) => task.id === currTaskId);
-		if (taskCompleted && taskCompleted.complete) {
-			confetti();
-		}
-	}, [currTaskId, completeTask]);
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
