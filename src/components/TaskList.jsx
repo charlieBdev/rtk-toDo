@@ -14,16 +14,14 @@ const TaskList = () => {
 	const tasksComplete = useSelector((state) => state.todo.tasksComplete);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const dispatch = useDispatch();
-	const [deleteClicked, setDeleteClicked] = useState(false);
+	const [allComplete, setAllComplete] = useState(false);
 
 	function deleteTask(id) {
-		setDeleteClicked(true);
 		dispatch(deleteTodo(id));
 		dispatch(setFirstRenderState(false));
 	}
 
 	function completeTask(id) {
-		setDeleteClicked(false);
 		const taskToComplete = tasks.find((task) => task.id === id);
 		if (taskToComplete) {
 			dispatch(completeTodo({ id }));
@@ -32,13 +30,13 @@ const TaskList = () => {
 	}
 
 	useEffect(() => {
-		const allTasksComplete =
-			tasks.length > 0 && tasks.every((task) => task.complete);
-
-		if (allTasksComplete && !isFirstRender && !deleteClicked) {
+		const allComplete = tasks.every((task) => task.complete);
+		setAllComplete(allComplete);
+		console.log(allComplete, '<<< allComplete');
+		if (allComplete) {
 			confetti();
 		}
-	}, [tasks, isFirstRender]);
+	}, [tasks]);
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
