@@ -12,6 +12,7 @@ import confetti from 'canvas-confetti';
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
+	const tasksCompleted = useSelector((state) => state.todo.tasksCompleted);
 	const dispatch = useDispatch();
 
 	function deleteTask(id) {
@@ -30,7 +31,12 @@ const TaskList = () => {
 
 		if (!task.complete) {
 			toast.success('Task completed');
-			confetti();
+			console.log(tasksCompleted);
+			if ((tasksCompleted + 1) % 3 === 0) {
+				confetti({ shapes: ['star'] });
+			} else {
+				confetti();
+			}
 		} else if (task.complete) {
 			toast.error('Task incomplete');
 		}
