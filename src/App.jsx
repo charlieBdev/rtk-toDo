@@ -3,6 +3,7 @@ import Feedback from './components/Feedback';
 import Quote from './components/Quote';
 import Task from './components/Task';
 import TaskList from './components/TaskList';
+import { Toaster } from 'sonner';
 
 function App() {
 	return (
@@ -12,6 +13,7 @@ function App() {
 			<Feedback />
 			<Task />
 			<TaskList />
+			<Toaster />
 		</div>
 	);
 }

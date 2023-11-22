@@ -20,10 +20,11 @@ const TaskList = () => {
 
 	function completeTask(id) {
 		const taskToComplete = tasks.find((task) => task.id === id);
+		console.log(taskToComplete, '<<< taskToComplete');
 		if (taskToComplete) {
 			dispatch(completeTodo({ id }));
 			dispatch(setFirstRenderState(false));
-			if (!taskToComplete.complete) {
+			if (taskToComplete && !taskToComplete.complete) {
 				confetti();
 			}
 		}
