@@ -1,18 +1,24 @@
-import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from '../features/todo/todoSlice';
 import { Add } from './Add';
+import { toast } from 'sonner';
+import { useState } from 'react';
 
 const Task = () => {
 	const dispatch = useDispatch();
-	const inputRef = useRef(null);
+	const [text, setText] = useState('');
+
+	function handleChange(e) {
+		setText(e.target.value);
+	}
 
 	function addNewTask(e) {
 		e.preventDefault();
-		const task = inputRef.current.value.trim();
+		const task = text.trim();
 		if (task !== '') {
 			dispatch(addTodo(task));
-			inputRef.current.value = '';
+			toast.success('Task added');
+			setText('');
 		}
 	}
 
@@ -21,7 +27,8 @@ const Task = () => {
 			<input
 				type='text'
 				placeholder='Add task here...'
-				ref={inputRef}
+				value={text}
+				onChange={handleChange}
 				className='border rounded p-1 w-full'
 			/>
 			<button

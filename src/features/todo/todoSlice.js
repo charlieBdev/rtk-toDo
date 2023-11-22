@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'sonner';
 
 const initialState = {
 	tasks: [],
@@ -12,38 +11,34 @@ const todoSlice = createSlice({
 	initialState,
 	reducers: {
 		addTodo: (state, action) => {
-			state.tasks.push({
+			const newTodo = {
 				id: Date.now(),
 				text: action.payload,
 				complete: false,
-			});
-			toast.success('Task added');
+			};
+			state.tasks.push(newTodo);
+		},
+		toggleTodo: (state, action) => {
+			const todo = state.tasks.find((task) => task.id === action.payload);
+
+			if (todo && !todo.complete) {
+				state.tasksCompleted++;
+			} else if (todo && todo.complete) {
+				state.tasksCompleted--;
+			}
+
+			todo.complete = !todo.complete;
 		},
 		deleteTodo: (state, action) => {
 			state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-			toast.error('Task deleted');
 		},
 		setFirstRenderState: (state, action) => {
 			state.isFirstRender = action.payload;
 		},
-		completeTodo: (state, action) => {
-			const { id } = action.payload;
-			const taskToUpdate = state.tasks.find((task) => task.id === id);
-
-			if (taskToUpdate && !taskToUpdate.complete) {
-				taskToUpdate.complete = true;
-				state.tasksCompleted++;
-				toast.success('Task completed');
-			} else if (taskToUpdate && taskToUpdate.complete) {
-				taskToUpdate.complete = false;
-				state.tasksCompleted--;
-				toast.error('Task incomplete');
-			}
-		},
 	},
 });
 
-export const { addTodo, deleteTodo, setFirstRenderState, completeTodo } =
+export const { addTodo, deleteTodo, setFirstRenderState, toggleTodo } =
 	todoSlice.actions;
 
 export default todoSlice.reducer;

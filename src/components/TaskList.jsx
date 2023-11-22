@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
-	completeTodo,
 	deleteTodo,
+	toggleTodo,
 	setFirstRenderState,
 } from '../features/todo/todoSlice';
-import confetti from 'canvas-confetti';
 import Delete from './Delete';
 import Complete from './Complete';
+import { toast } from 'sonner';
+import confetti from 'canvas-confetti';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
@@ -15,18 +16,23 @@ const TaskList = () => {
 
 	function deleteTask(id) {
 		dispatch(deleteTodo(id));
-		dispatch(setFirstRenderState(false));
+		if (isFirstRender) {
+			dispatch(setFirstRenderState(false));
+		}
+		toast.error('Task deleted');
 	}
 
-	function completeTask(id) {
-		const taskToComplete = tasks.find((task) => task.id === id);
-		console.log(taskToComplete, '<<< taskToComplete');
-		if (taskToComplete) {
-			dispatch(completeTodo({ id }));
+	function toggleTask(task) {
+		dispatch(toggleTodo(task.id));
+		if (isFirstRender) {
 			dispatch(setFirstRenderState(false));
-			if (taskToComplete && !taskToComplete.complete) {
-				confetti();
-			}
+		}
+
+		if (!task.complete) {
+			toast.success('Task completed');
+			confetti();
+		} else if (task.complete) {
+			toast.error('Task incomplete');
 		}
 	}
 
@@ -47,7 +53,7 @@ const TaskList = () => {
 									className={`border rounded p-1 shadow hover:shadow-xl ${
 										task.complete ? 'text-neutral-500' : ''
 									}`}
-									onClick={() => completeTask(task.id)}
+									onClick={() => toggleTask(task)}
 									aria-label={`Complete task: ${task.text}`}
 								>
 									<Complete />
@@ -66,7 +72,10 @@ const TaskList = () => {
 				</div>
 			)}
 			{tasks.length === 0 && !isFirstRender && (
-				<p>Your work here is done. Take 5!</p>
+				<div className='grid gap-3'>
+					<p>You have no more tasks.</p>
+					<p>☕ Take a break! 🍪</p>
+				</div>
 			)}
 		</div>
 	);
