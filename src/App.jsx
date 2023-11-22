@@ -8,7 +8,7 @@ import { Toaster } from 'sonner';
 function App() {
 	return (
 		<div className='flex flex-col items-center gap-3'>
-			<h1 className='text-3xl font-bold underline'>Todo List</h1>
+			<h1 className='text-2xl font-bold'>Todo List</h1>
 			<Quote />
 			<Feedback />
 			<Task />

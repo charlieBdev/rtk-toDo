@@ -8,6 +8,7 @@ import Delete from './Delete';
 import Complete from './Complete';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
+import { useEffect } from 'react';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
@@ -42,6 +43,12 @@ const TaskList = () => {
 		}
 	}
 
+	useEffect(() => {
+		if (tasks.length === 0) {
+			toast.success('You have no more tasks. Take 5!');
+		}
+	}, [tasks]);
+
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
 			{tasks.length > 0 && (
@@ -49,7 +56,9 @@ const TaskList = () => {
 					<ol className='flex flex-col gap-3'>
 						{tasks.map((task, index) => (
 							<li className='flex gap-1 items-center' key={task.id}>
-								<p className='border rounded w-full p-1 text-left'>
+								<p
+									className={`${task.colour} border rounded w-full px-2 py-1 text-left`}
+								>
 									Task {index + 1}:{' '}
 									<span className={task.complete ? 'line-through' : ''}>
 										{task.text} {task.complete}
@@ -77,12 +86,12 @@ const TaskList = () => {
 					</ol>
 				</div>
 			)}
-			{tasks.length === 0 && !isFirstRender && (
+			{/* {tasks.length === 0 && !isFirstRender && (
 				<div className='grid gap-3'>
 					<p>You have no more tasks.</p>
 					<p>☕ Take a break! 🍪</p>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
