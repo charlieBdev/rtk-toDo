@@ -18,15 +18,7 @@ const todoSlice = createSlice({
 			});
 		},
 		deleteTodo: (state, action) => {
-			const taskToDelete = state.tasks.find(
-				(task) => task.id === action.payload
-			);
-
 			state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-
-			if (taskToDelete && taskToDelete.complete && state.tasks.length > 0) {
-				state.tasksCompleted--;
-			}
 		},
 		setFirstRenderState: (state, action) => {
 			state.isFirstRender = action.payload;

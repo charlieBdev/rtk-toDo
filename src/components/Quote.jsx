@@ -22,7 +22,7 @@ const Quote = () => {
 	return (
 		<div>
 			{randomQuote ? (
-				<p className='italic'>
+				<p className='italic text-sm'>
 					"{randomQuote}" - {prepAuthor(author)}
 				</p>
 			) : null}

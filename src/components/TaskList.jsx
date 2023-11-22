@@ -10,7 +10,6 @@ import Complete from './Complete';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
-	const tasksCompleted = useSelector((state) => state.todo.tasksCompleted);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const dispatch = useDispatch();
 
@@ -32,7 +31,6 @@ const TaskList = () => {
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
-			<p>Tasks completed: {tasksCompleted}</p>
 			{tasks.length > 0 && (
 				<div className='flex flex-col gap-3'>
 					<ol className='flex flex-col gap-3'>
@@ -67,7 +65,7 @@ const TaskList = () => {
 				</div>
 			)}
 			{tasks.length === 0 && !isFirstRender && (
-				<p>You are done here. Take 5!</p>
+				<p>Your work here is done. Take 5!</p>
 			)}
 		</div>
 	);
