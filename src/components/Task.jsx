@@ -38,7 +38,7 @@ const Task = () => {
 			<div className='relative inline-block text-left'>
 				<select
 					onChange={(e) => setColour(e.target.value)}
-					className={`border rounded w-[34px] p-1 ${colour} appearance-none hover:cursor-pointer shadow`}
+					className={`border rounded w-[34px] p-1 ${colour} appearance-none hover:cursor-pointer shadow hover:shadow-xl`}
 				>
 					<option value='border bg-white' className='bg-white'></option>
 					<option value='bg-blue-400' className='bg-blue-400'></option>
