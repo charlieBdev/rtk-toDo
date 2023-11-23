@@ -8,14 +8,15 @@ import Delete from './Delete';
 import Complete from './Complete';
 import { toast } from 'sonner';
 import confetti from 'canvas-confetti';
-import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const TaskList = () => {
 	const tasks = useSelector((state) => state.todo.tasks);
 	const isFirstRender = useSelector((state) => state.todo.isFirstRender);
 	const tasksCompleted = useSelector((state) => state.todo.tasksCompleted);
 	const dispatch = useDispatch();
+	const [toggledTaskId, setToggledTaskId] = useState(null);
 
 	const liAnimation = {
 		initial: { scale: 0 },
@@ -25,11 +26,6 @@ const TaskList = () => {
 			stiffness: 260,
 			damping: 20,
 		},
-		// exit: {
-		// 	x: '100%',
-		// 	opacity: 0,
-		// 	transition: { duration: 0.2, ease: 'easeOut' },
-		// },
 	};
 
 	function deleteTask(id) {
@@ -41,29 +37,35 @@ const TaskList = () => {
 	}
 
 	function toggleTask(task) {
+		setToggledTaskId(task.id);
 		dispatch(toggleTodo(task.id));
 		if (isFirstRender) {
 			dispatch(setFirstRenderState(false));
 		}
-
-		if (!task.complete) {
-			if ((tasksCompleted + 1) % 3 === 0) {
-				toast.success('3 tasks completed. Take a break!');
-				confetti({ shapes: ['star'] });
-			} else {
-				toast.success('Task completed!');
-				confetti();
-			}
-		} else if (task.complete) {
-			toast.error('Task incomplete');
-		}
 	}
+
+	useEffect(() => {
+		const taskToCheckComplete = tasks.find((task) => task.id === toggledTaskId);
+		if (taskToCheckComplete) {
+			if (taskToCheckComplete.complete) {
+				if (tasksCompleted % 3 === 0) {
+					toast.success('3 tasks completed. Take a break!');
+					confetti({ shapes: ['star'] });
+				} else {
+					toast.success('Task completed!');
+					confetti();
+				}
+			} else if (!taskToCheckComplete.complete) {
+				toast.error('Task incomplete');
+			}
+		}
+	}, [tasksCompleted]);
 
 	useEffect(() => {
 		if (tasks.length === 0) {
 			toast.success('You have no more tasks.');
 		}
-	}, [tasks]);
+	}, [tasksCompleted]);
 
 	return (
 		<div className='flex flex-col gap-3 w-full sm:w-1/2'>
@@ -71,7 +73,6 @@ const TaskList = () => {
 				<div className='flex flex-col gap-3'>
 					<ol className='flex flex-col gap-3'>
 						{tasks.map((task, index) => (
-							// <AnimatePresence>
 							<motion.li
 								{...liAnimation}
 								className='flex gap-1 items-center'
@@ -103,17 +104,10 @@ const TaskList = () => {
 									<Delete />
 								</button>
 							</motion.li>
-							// </AnimatePresence>
 						))}
 					</ol>
 				</div>
 			)}
-			{/* {tasks.length === 0 && !isFirstRender && (
-				<div className='grid gap-3'>
-					<p>You have no more tasks.</p>
-					<p>☕ Take a break! 🍪</p>
-				</div>
-			)} */}
 		</div>
 	);
 };
