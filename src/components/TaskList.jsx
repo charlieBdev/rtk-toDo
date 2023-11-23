@@ -48,10 +48,10 @@ const TaskList = () => {
 
 		if (!task.complete) {
 			if ((tasksCompleted + 1) % 3 === 0) {
-				toast.success('3 tasks completed. Take a break! ☕🍪');
+				toast.success('3 tasks completed. Take a break!');
 				confetti({ shapes: ['star'] });
 			} else {
-				toast.success('Task completed');
+				toast.success('Task completed!');
 				confetti();
 			}
 		} else if (task.complete) {
@@ -61,7 +61,7 @@ const TaskList = () => {
 
 	useEffect(() => {
 		if (tasks.length === 0) {
-			toast.success('You have no more tasks. Take 5!');
+			toast.success('You have no more tasks.');
 		}
 	}, [tasks]);
 
