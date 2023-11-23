@@ -49,9 +49,7 @@ const TaskList = () => {
 		if (!task.complete) {
 			if ((tasksCompleted + 1) % 3 === 0) {
 				toast.success('3 tasks completed. Take a break! ☕🍪');
-				var scalar = 2;
-				var coffee = confetti.shapeFromText({ text: '☕🍪', scalar });
-				confetti({ shapes: [coffee] });
+				confetti({ shapes: ['star'] });
 			} else {
 				toast.success('Task completed');
 				confetti();
