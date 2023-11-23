@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
 	tasks: [],
@@ -12,7 +12,7 @@ const todoSlice = createSlice({
 	reducers: {
 		addTodo: (state, action) => {
 			const newTodo = {
-				id: Date.now(),
+				id: nanoid(),
 				text: action.payload.text,
 				complete: false,
 				colour: action.payload.colour,

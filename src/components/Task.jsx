@@ -3,6 +3,7 @@ import { addTodo } from '../features/todo/todoSlice';
 import { Add } from './Add';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import Down from './Down';
 
 const Task = () => {
 	const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const Task = () => {
 			dispatch(addTodo({ text, colour }));
 			toast.success('Task added');
 			setText('');
+		} else {
+			toast.error('Add a task');
 		}
 	}
 
@@ -32,19 +35,23 @@ const Task = () => {
 				onChange={handleChange}
 				className='border rounded px-2 py-1 w-full'
 			/>
-			<select
-				onChange={(e) => setColour(e.target.value)}
-				className='border rounded'
-			>
-				<option value='border'>No colour</option>
-				<option value='bg-blue-200'>Blue</option>
-				<option value='bg-green-200'>Green</option>
-				<option value='bg-orange-200'>Orange</option>
-				<option value='bg-pink-200'>Pink</option>
-				<option value='bg-purple-200'>Purple</option>
-				<option value='bg-red-200'>Red</option>
-				<option value='bg-yellow-200'>Yellow</option>
-			</select>
+			<div className='relative inline-block text-left'>
+				<select
+					onChange={(e) => setColour(e.target.value)}
+					className={`border rounded w-[34px] p-1 ${colour} appearance-none hover:cursor-pointer shadow`}
+				>
+					<option value='border bg-white' className='bg-white'></option>
+					<option value='bg-blue-400' className='bg-blue-400'></option>
+					<option value='bg-green-400' className='bg-green-400'></option>
+					<option value='bg-pink-400' className='bg-pink-400'></option>
+					<option value='bg-orange-400' className='bg-orange-400'></option>
+					<option value='bg-yellow-400' className='bg-yellow-400'></option>
+					<option value='bg-purple-400' className='bg-purple-400'></option>
+				</select>
+				<div className='absolute inset-0 grid place-items-center pointer-events-none'>
+					<Down />
+				</div>
+			</div>
 			<button
 				className='border rounded p-1 shadow hover:shadow-xl'
 				type='submit'

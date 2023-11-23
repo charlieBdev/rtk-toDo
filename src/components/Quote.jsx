@@ -22,9 +22,12 @@ const Quote = () => {
 	return (
 		<>
 			{randomQuote ? (
-				<p className='italic text-sm shadow rounded px-2 py-1 w-full sm:w-1/2'>
-					"{randomQuote}" - {prepAuthor(author)}
-				</p>
+				<div className='text-sm shadow rounded px-2 py-1 w-full sm:w-1/2'>
+					<p>
+						"<span className='italic'>{randomQuote}</span>"
+					</p>
+					<p>{prepAuthor(author)}</p>
+				</div>
 			) : null}
 		</>
 	);
